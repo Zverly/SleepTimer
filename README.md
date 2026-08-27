@@ -38,9 +38,9 @@ dotnet restore SleepTimer.sln
 dotnet run --project src/SleepTimer.App/SleepTimer.App.csproj --configuration Release
 ```
 
-### 使用发布版
+### 发布版
 
-发布版建议放在 GitHub Releases 中。首次运行时请保留程序目录结构；应用会在程序目录下创建 `data` 文件夹保存设置和运行记录。
+当前仓库以源码为主，发布包不直接提交到代码目录。需要使用发布版时，请从 GitHub 的 Releases 页面获取；没有可用 Release 时，请按下方“发布”步骤自行构建。首次运行时请保留程序目录结构；应用会在程序目录下创建 `data` 文件夹保存设置和运行记录。
 
 ## 安全说明
 
@@ -82,4 +82,4 @@ dotnet publish src/SleepTimer.App/SleepTimer.App.csproj --configuration Release 
 
 ## 许可证
 
-当前仓库尚未声明开源许可证。补充 `LICENSE` 文件后，其他人才能明确了解项目的使用、修改和再分发权限。
+本项目采用 MIT License。具体使用、修改和再分发条件请参阅 [LICENSE](LICENSE)。
