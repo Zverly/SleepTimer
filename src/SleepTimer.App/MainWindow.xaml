@@ -1,0 +1,86 @@
+<Window x:Class="SleepTimer.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="睡眠关机定时器" Icon="Assets/sleep-timer-icon-approved.ico" Width="640" Height="760"
+        MinWidth="560" MinHeight="650" WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize" Loaded="MainWindow_Loaded">
+    <Grid Margin="32,28">
+        <Grid x:Name="HomePanel">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Assets/sleep-timer-icon-approved-circle.png" Width="36" Height="36" Stretch="Uniform" Margin="0,0,12,0" />
+                        <StackPanel><TextBlock Text="睡前模式" Style="{StaticResource EyebrowStyle}" Foreground="{StaticResource AccentBrush}" />
+                            <TextBlock Text="睡眠关机定时器" FontSize="27" FontWeight="SemiBold" /></StackPanel>
+                    </StackPanel>
+                    <TextBlock Text="安静地安排下一步，让电脑按时休息。" Margin="48,7,0,0" Foreground="{StaticResource MutedBrush}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Button Content="帮助" Style="{StaticResource QuietButtonStyle}" Click="Help_Click" />
+                    <Button Content="关于" Style="{StaticResource QuietButtonStyle}" Click="About_Click" Margin="6,0,0,0" />
+                    <Button Content="设置" Style="{StaticResource QuietButtonStyle}" Click="Settings_Click" Margin="6,0,0,0" />
+                </StackPanel>
+            </Grid>
+            <Border Grid.Row="1" Style="{StaticResource CardStyle}" Margin="0,28,0,0">
+                <StackPanel>
+                    <TextBlock Text="到点执行" Style="{StaticResource EyebrowStyle}" />
+                    <Grid Margin="0,12,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                        <RadioButton x:Name="ShutdownRadio" Content="关机" GroupName="Action" IsChecked="True" Style="{StaticResource SegmentRadioStyle}" Checked="ActionRadio_Checked" />
+                        <RadioButton x:Name="SleepRadio" Grid.Column="1" Content="睡眠" GroupName="Action" Style="{StaticResource SegmentRadioStyle}" Checked="ActionRadio_Checked" />
+                    </Grid>
+                    <CheckBox x:Name="ForceShutdownCheck" Content="允许强制关闭应用" Margin="2,14,0,0" Checked="ForceShutdownCheck_Changed" Unchecked="ForceShutdownCheck_Changed" />
+                    <TextBlock Text="强制关机可能造成未保存数据丢失，仅在必要时启用。" Margin="22,4,0,0" FontSize="12" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+            <StackPanel Grid.Row="2" Margin="0,28,0,0">
+                <TextBlock Text="快速选择" Style="{StaticResource EyebrowStyle}" />
+                <UniformGrid Columns="2" Rows="2" Margin="0,12,0,0">
+                    <Button x:Name="Preset30" Content="30 分钟" Tag="30" Style="{StaticResource PresetButtonStyle}" Click="Preset_Click" Margin="0,0,8,8" />
+                    <Button x:Name="Preset60" Content="60 分钟" Tag="60" Style="{StaticResource PresetButtonStyle}" Click="Preset_Click" Margin="8,0,0,8" />
+                    <Button x:Name="Preset90" Content="90 分钟" Tag="90" Style="{StaticResource PresetButtonStyle}" Click="Preset_Click" Margin="0,8,8,0" />
+                    <Button x:Name="Preset120" Content="120 分钟" Tag="120" Style="{StaticResource PresetButtonStyle}" Click="Preset_Click" Margin="8,8,0,0" />
+                </UniformGrid>
+            </StackPanel>
+            <Border Grid.Row="3" Style="{StaticResource CardStyle}" Margin="0,22,0,0" Padding="18,15">
+                <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="170" /></Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center"><TextBlock Text="或者指定时间" FontWeight="SemiBold" />
+                        <TextBlock Text="今天已过的时间会自动安排到明天" Margin="0,4,0,0" FontSize="12" Foreground="{StaticResource MutedBrush}" /></StackPanel>
+                    <TextBox x:Name="TargetTimeText" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" ToolTip="例如 23:30" />
+                </Grid>
+            </Border>
+            <StackPanel Grid.Row="4" VerticalAlignment="Bottom" Margin="2,18,2,18">
+                <TextBlock x:Name="HomeStatusText" Foreground="{StaticResource WarningBrush}" TextWrapping="Wrap" />
+                <TextBlock Text="任务创建后，即使关闭窗口也会继续运行。" Margin="0,10,0,0" FontSize="12" Foreground="{StaticResource MutedBrush}" />
+            </StackPanel>
+            <Button Grid.Row="5" Content="开始倒计时  〉" Style="{StaticResource PrimaryButtonStyle}" FontSize="17" Click="Start_Click" />
+        </Grid>
+        <Grid x:Name="CountdownPanel" Visibility="Collapsed">
+            <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions><StackPanel><TextBlock Text="当前计划" Style="{StaticResource EyebrowStyle}" /><TextBlock x:Name="ActionText" Margin="0,7,0,0" FontSize="26" FontWeight="SemiBold" /></StackPanel>
+                <Button Grid.Column="1" Content="返回设置" Style="{StaticResource QuietButtonStyle}" HorizontalAlignment="Right" Click="BackToHome_Click" /></Grid>
+            <Border Grid.Row="1" Style="{StaticResource CountdownCardStyle}" Margin="0,26,0,26" Padding="28">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Image Source="Assets/sleep-timer-icon-approved-circle.png" Width="118" Height="118" Stretch="Uniform" HorizontalAlignment="Center" />
+                    <TextBlock Text="剩余时间" HorizontalAlignment="Center" Margin="0,26,0,0" Foreground="{StaticResource MutedBrush}" />
+                    <TextBlock x:Name="RemainingText" Text="00:00:00" Margin="0,7,0,0" FontSize="58" FontWeight="Light" Foreground="{StaticResource CountdownTextBrush}" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="TargetText" HorizontalAlignment="Center" Margin="0,9,0,0" Foreground="{StaticResource MutedBrush}" />
+                    <TextBlock x:Name="CountdownStatusText" HorizontalAlignment="Center" Margin="0,16,0,0" Foreground="{StaticResource SuccessBrush}" />
+                </StackPanel>
+            </Border>
+            <Grid Grid.Row="2"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                <Button Content="+30 分钟" Click="Extend_Click" Margin="0,0,6,0" /><Button x:Name="ReduceButton" Grid.Column="1" Content="-30 分钟" Click="Reduce_Click" Margin="6,0" /><Button Grid.Column="2" Content="取消计划" Click="Cancel_Click" Margin="6,0" /><Button Grid.Column="3" Content="隐藏到托盘" Click="Hide_Click" Margin="6,0,0,0" /></Grid>
+        </Grid>
+        <Border x:Name="OverlayPanel" Visibility="Collapsed" Background="{StaticResource CardBrush}" BorderBrush="{StaticResource PanelBorderBrush}" BorderThickness="1" TextElement.Foreground="{StaticResource TextBrush}" CornerRadius="14" Padding="26">
+            <Grid><Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                <Grid><TextBlock x:Name="OverlayTitle" FontSize="22" FontWeight="SemiBold" /><Button Content="关闭" Style="{StaticResource QuietButtonStyle}" HorizontalAlignment="Right" Click="CloseOverlay_Click" /></Grid>
+                <ScrollViewer Grid.Row="1" Margin="0,24,0,18" VerticalScrollBarVisibility="Auto"><StackPanel x:Name="OverlayContent" /></ScrollViewer>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"><Button x:Name="OverlaySecondaryButton" Style="{StaticResource QuietButtonStyle}" Visibility="Collapsed" Click="CloseOverlay_Click" /><Button x:Name="OverlayPrimaryButton" Content="知道了" MinWidth="92" Click="CloseOverlay_Click" /></StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

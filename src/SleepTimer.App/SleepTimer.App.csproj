@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PlatformTarget>x64</PlatformTarget>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Assets\sleep-timer-icon-approved.ico</ApplicationIcon>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Assets\sleep-timer-icon.ico" />
+    <Resource Include="Assets\sleep-timer-icon-v2.ico" />
+    <Resource Include="Assets\sleep-timer-icon-v2.png" />
+    <Resource Include="Assets\sleep-timer-icon-v3.ico" />
+    <Resource Include="Assets\sleep-timer-icon-v3.png" />
+    <Resource Include="Assets\sleep-timer-icon-approved.ico" />
+    <Resource Include="Assets\sleep-timer-icon-approved.png" />
+    <Resource Include="Assets\sleep-timer-icon-approved-circle.png" />
+    <ProjectReference Include="..\SleepTimer.Core\SleepTimer.Core.csproj" />
+    <ProjectReference Include="..\SleepTimer.Windows\SleepTimer.Windows.csproj" />
+  </ItemGroup>
+</Project>
